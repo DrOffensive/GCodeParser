@@ -1,0 +1,20 @@
+{
+  "name": "com.droffensive.gcodeparser",
+  "version": "1.0.0",
+  "displayName": "GCode Parser",
+  "description": "An engine-agnostic GCode parser written in C#, featuring a normalized timeline scrubbing architecture and an included Unity adapter.",
+  "unity": "2021.3",
+  "unityRelease": "0f1",
+  "author": {
+    "name": "DrOffensive",
+    "url": "https://github.com/DrOffensive"
+  },
+  "license": "MIT",
+  "keywords": [
+    "gcode",
+    "parser",
+    "utility",
+    "animation",
+    "tooling"
+  ]
+}
