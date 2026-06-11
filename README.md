@@ -2,7 +2,7 @@
 
 A C# GCode parser built for real-time scrubbing and smooth animation. Instead of replaying instructions frame-by-frame, it converts an entire print into a normalized timeline — pass any `t` value in `[0, 1]` and get the exact nozzle position, layer height, and extrusion state at that point.
 
-Originally built for a Unity game with a diegetic 3D bioprinter prop, but the core has no engine dependencies and works anywhere C# runs.
+Originally built for a Unity game, but the core has no engine dependencies and works anywhere C# runs.
 
 ---
 
