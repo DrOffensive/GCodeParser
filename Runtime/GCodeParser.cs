@@ -225,6 +225,7 @@ public static class GCodeParser
     /// A parsed and normalized GCode file. Sample it at any t in [0,1]
     /// to get the exact nozzle state at that point in the print.
     /// </summary>
+    [Serializable]
     public class GCode
     {
         public IReadOnlyList<GCodeLayer> Layers { get; }
@@ -284,6 +285,7 @@ public static class GCodeParser
             => b > a ? (t - a) / (b - a) : 0f;
     }
 
+    [Serializable]
     public struct GCodeLayer
     {
         public float LayerHeight { get; }
@@ -356,6 +358,7 @@ public static class GCodeParser
         }
     }
 
+    [Serializable]
     public struct GCodeInstruction
     {
         public InstructionType Type { get; }
@@ -402,6 +405,7 @@ public static class GCodeParser
     /// The result of sampling the print at a given normalized t.
     /// All positions are in GCode millimeter space.
     /// </summary>
+    [Serializable]
     public struct PrintSample
     {
         /// <summary>Nozzle XY position in GCode mm space.</summary>
@@ -426,6 +430,7 @@ public static class GCodeParser
     // Engine-agnostic math types
     // -------------------------------------------------------------------------
 
+    [Serializable]
     public struct Vec2
     {
         public float X, Y;
@@ -435,6 +440,7 @@ public static class GCodeParser
         public override string ToString() => $"({X:F3}, {Y:F3})";
     }
 
+    [Serializable]
     public struct Vec3
     {
         public float X, Y, Z;
