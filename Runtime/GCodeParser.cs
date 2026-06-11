@@ -228,10 +228,8 @@ public static class GCodeParser
     [Serializable]
     public class GCode
     {
-        [SerializeField] private List<GCodeLayer> _layers;
-        public IReadOnlyList<GCodeLayer> Layers { get => _layers; }
-
-        public GCode(List<GCodeLayer> layers) => _layers = layers;
+        public List<GCodeLayer> Layers;
+        public GCode(List<GCodeLayer> layers) => Layers = layers;
 
         /// <summary>
         /// Sample the print at normalized t [0,1].
@@ -240,10 +238,10 @@ public static class GCodeParser
         public PrintSample Sample(float t)
         {
             t = Math.Max(0f, Math.Min(1f, t));
-            if (_layers == null || Layers.Count == 0)
+            if (Layers == null || Layers.Count == 0)
                 return default;
 
-            int lo = 0, hi = _layers.Count - 1;
+            int lo = 0, hi = Layers.Count - 1;
             while (lo < hi)
             {
                 int mid = (lo + hi) / 2;
@@ -251,7 +249,7 @@ public static class GCodeParser
                 else hi = mid;
             }
 
-            GCodeLayer layer = _layers[lo];
+            GCodeLayer layer = Layers[lo];
             float localT = layer.TEnd > layer.TStart
                 ? InverseLerp(layer.TStart, layer.TEnd, t)
                 : 0f;
