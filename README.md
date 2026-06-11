@@ -16,6 +16,14 @@ Originally built for a Unity game, but the core has no engine dependencies and w
 
 ---
 
+## Why this parser?
+
+Most C# GCode parsers are built to slowly stream text over a serial port to CNC hardware. This parser is built for Game Engines and **real-time 60FPS+ sampling**.
+Instead of relying on sequential foreach loops, it pre-calculates move durations, weights G0/G1 speeds, and compiles the entire file into a normalized [0, 1] timeline. Thanks to a layer-chunked architecture and O(logN) binary search lookups, you can call Sample(time) directly inside your Update loop at 144Hz without dropping frames—even on massive 500,000-line GCode files. The parser instantly returns the smoothly interpolated 3D position and extrusion state for that exact frame.
+
+
+---
+
 ## Supported GCode
 
 | Code | Handling |
