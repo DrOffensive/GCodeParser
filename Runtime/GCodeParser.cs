@@ -228,9 +228,10 @@ public static class GCodeParser
     [Serializable]
     public class GCode
     {
-        public IReadOnlyList<GCodeLayer> Layers { get; }
+        [SerializeField] private List<GCodeLayer> _layers;
+        public IReadOnlyList<GCodeLayer> Layers { get => _layers; }
 
-        public GCode(List<GCodeLayer> layers) => Layers = layers;
+        public GCode(List<GCodeLayer> layers) => _layers = layers;
 
         /// <summary>
         /// Sample the print at normalized t [0,1].
@@ -239,10 +240,10 @@ public static class GCodeParser
         public PrintSample Sample(float t)
         {
             t = Math.Max(0f, Math.Min(1f, t));
-            if (Layers == null || Layers.Count == 0)
+            if (_layers == null || Layers.Count == 0)
                 return default;
 
-            int lo = 0, hi = Layers.Count - 1;
+            int lo = 0, hi = _layers.Count - 1;
             while (lo < hi)
             {
                 int mid = (lo + hi) / 2;
@@ -250,7 +251,7 @@ public static class GCodeParser
                 else hi = mid;
             }
 
-            GCodeLayer layer = Layers[lo];
+            GCodeLayer layer = _layers[lo];
             float localT = layer.TEnd > layer.TStart
                 ? InverseLerp(layer.TStart, layer.TEnd, t)
                 : 0f;
@@ -288,15 +289,15 @@ public static class GCodeParser
     [Serializable]
     public struct GCodeLayer
     {
-        public float LayerHeight { get; }
-        public int LayerIndex { get; }
-        public IReadOnlyList<GCodeInstruction> Instructions { get; }
-        public Vec2 EndPosition { get; }
-        public float TravelLength { get; }
-        public float RapidTravelLength { get; }
-        public float WeightedLength { get; }
-        public float TStart { get; private set; }
-        public float TEnd { get; private set; }
+        public float LayerHeight;
+        public int LayerIndex;
+        public List<GCodeInstruction> Instructions;
+        public Vec2 EndPosition;
+        public float TravelLength;
+        public float RapidTravelLength;
+        public float WeightedLength;
+        public float TStart;
+        public float TEnd;
 
         public GCodeLayer(float layerHeight, int layerIndex, List<GCodeInstruction> instructions,
             Vec2 endPosition, float travelLength, float rapidTravelLength)
@@ -361,15 +362,15 @@ public static class GCodeParser
     [Serializable]
     public struct GCodeInstruction
     {
-        public InstructionType Type { get; }
-        public Vec3 StartPosition { get; }
-        public Vec3 EndPosition { get; }
-        public bool Rapid { get; }
-        public bool Extrude { get; }
-        public float Length { get; }
-        public float WeightedLength { get; }
-        public float LocalTStart { get; private set; }
-        public float LocalTEnd { get; private set; }
+        public InstructionType Type;
+        public Vec3 StartPosition;
+        public Vec3 EndPosition;
+        public bool Rapid;
+        public bool Extrude;
+        public float Length;
+        public float WeightedLength;
+        public float LocalTStart;
+        public float LocalTEnd;
 
         public GCodeInstruction(InstructionType type, Vec3 startPosition, Vec3 endPosition,
             bool rapid, bool extrude, float length, float weightedLength)
