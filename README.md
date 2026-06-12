@@ -24,6 +24,18 @@ Instead of relying on sequential foreach loops, it pre-calculates move durations
 
 ---
 
+## Performance Considerations
+
+While the `Sample(t)` method is highly optimized and designed to run inside your `Update()` loop at 144Hz, the initial `Parse()` step is a demanding operation. Standard FDM GCode files often contain hundreds of thousands of instructions, and tokenizing these strings will generate garbage collection overhead. 
+
+If you are using this in a real-time environment like Unity, **do not call `GCodeParser.Parse()` on the main thread during active gameplay**, as it will cause a noticeable frame stutter.
+
+**Recommended Workflows:**
+* **Static Assets (Pre-baking):** If your GCode is known ahead of time, parse it inside the Editor using a custom script and serialize the resulting `GCode` object into a `ScriptableObject`. The timeline data will then load instantly at runtime.
+* **Dynamic Assets (Runtime Loading):** If players are loading custom `.gcode` files from disk during runtime, offload the `Parse()` execution to a background thread (e.g., using `Task.Run`) or split the parsing logic across a coroutine. Once the thread completes, pass the fully compiled `GCode` object back to the main thread for rendering.
+
+---
+
 ## Supported GCode
 
 | Code | Handling |
