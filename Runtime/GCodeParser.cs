@@ -1,6 +1,6 @@
 // MIT License
 // Copyright (c) 2026 Marc
-// https://github.com/marc/gcode-parser
+// https://github.com/DrOffensive/GCodeParser
 
 using System;
 using System.Collections.Generic;
