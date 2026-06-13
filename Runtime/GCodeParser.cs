@@ -257,29 +257,6 @@ public static class GCodeParser
             return layer.Sample(localT);
         }
 
-        /// <summary>
-        /// Estimate total print duration in seconds given speed parameters.
-        /// extrusionSpeed and travelSpeed are in GCode mm/s, scaleFactor converts
-        /// GCode mm to your world units.
-        /// </summary>
-        public float GetPrintDuration(float extrusionSpeed, float travelSpeed, float scaleFactor)
-        {
-            if (extrusionSpeed <= 0f) extrusionSpeed = 0.0001f;
-            if (travelSpeed <= 0f) travelSpeed = 0.0001f;
-            if (Layers == null || Layers.Count == 0) return 0f;
-
-            float duration = 0f;
-            float currentHeight = 0f;
-            foreach (var layer in Layers)
-            {
-                duration += layer.GetLayerDuration(extrusionSpeed, travelSpeed, scaleFactor);
-                float deltaHeight = layer.LayerHeight - currentHeight;
-                currentHeight = layer.LayerHeight;
-                duration += (deltaHeight * scaleFactor) / travelSpeed;
-            }
-            return duration;
-        }
-
         private static float InverseLerp(float a, float b, float t)
             => b > a ? (t - a) / (b - a) : 0f;
     }
