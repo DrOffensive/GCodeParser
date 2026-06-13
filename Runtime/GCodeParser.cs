@@ -300,13 +300,6 @@ public static class GCodeParser
             return copy;
         }
 
-        public float GetLayerDuration(float extrudeSpeed, float travelSpeed, float scaleFactor)
-        {
-            float extrudeTime = extrudeSpeed > 0f ? (TravelLength * scaleFactor) / extrudeSpeed : 0f;
-            float rapidTime = travelSpeed > 0f ? (RapidTravelLength * scaleFactor) / travelSpeed : 0f;
-            return extrudeTime + rapidTime;
-        }
-
         public PrintSample Sample(float localT)
         {
             if (Instructions == null || Instructions.Count == 0)
